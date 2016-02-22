@@ -10,6 +10,7 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/miekg/mmark"
 	"github.com/russross/blackfriday"
 )
 
@@ -205,4 +206,19 @@ func (c Context) Markdown(filename string) (string, error) {
 	markdown := blackfriday.Markdown([]byte(body), renderer, extns)
 
 	return string(markdown), nil
+}
+
+// MMark returns the HTML contents of the markdown contained in filename
+// (relative to the site root).
+func (c Context) MMark(filename string) (string, error) {
+	body, err := c.Include(filename)
+	if err != nil {
+		return "", err
+	}
+	renderer := mmark.HtmlRenderer(0, "", "")
+	extns := mmark.EXTENSION_TABLES | mmark.EXTENSION_FENCED_CODE |
+		mmark.EXTENSION_MATH | mmark.EXTENSION_INLINE_ATTR
+	buf := mmark.Parse([]byte(body), renderer, extns)
+
+	return buf.String(), nil
 }

@@ -65,6 +65,7 @@ var directiveOrder = []directive{
 	{"fastcgi", setup.FastCGI},
 	{"websocket", setup.WebSocket},
 	{"markdown", setup.Markdown},
+	{"mmark", setup.MMark},
 	{"templates", setup.Templates},
 	{"browse", setup.Browse},
 }
